@@ -1,13 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://wh60krr32mpp"]
+[gd_scene load_steps=9 format=3 uid="uid://wh60krr32mpp"]
 
 [ext_resource type="Texture2D" uid="uid://16v3f8qy51fl" path="res://assets/textures/character/Skin1Idle.png" id="1_846d7"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_e5hsa"]
 [ext_resource type="Texture2D" uid="uid://ck1l50n0osqjs" path="res://assets/textures/character/Skin1Jump.png" id="2_wnbc2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7aa3a"]
 size = Vector2(46, 20)
 
-[sub_resource type="Animation" id="Animation_o7i0r"]
-resource_name = "fall"
+[sub_resource type="Animation" id="Animation_b1xqm"]
+length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -45,8 +46,8 @@ tracks/2/keys = {
 "values": [Vector2(0.35, 0.35)]
 }
 
-[sub_resource type="Animation" id="Animation_b1xqm"]
-length = 0.001
+[sub_resource type="Animation" id="Animation_o7i0r"]
+resource_name = "fall"
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -131,8 +132,11 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D"]
+collision_mask = 2
+script = ExtResource("1_e5hsa")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 100
 position = Vector2(0, -46)
 scale = Vector2(0.35, 0.35)
 texture = ExtResource("1_846d7")
