@@ -4,15 +4,24 @@ class_name Player
 @export var speed = 300
 @export var slide = 1
 @export var gravity = 15.0
+@export var jump_velocity = -800
 
 var maxFallVelocity = 1000
 var viewport_size 
+
+@onready var animator = $AnimationPlayer
 
 func _ready():
 	viewport_size = get_viewport_rect().size 
 
 func _process(delta):
-	pass
+	if velocity.y > 0:
+		if animator.current_animation != "fall":
+			animator.play("fall")
+	elif velocity.y < 0:
+		if animator.current_animation != "jump":
+			animator.play("jump")
+	
 
 func _physics_process(delta):
 	velocity.y += gravity
@@ -33,6 +42,9 @@ func _physics_process(delta):
 		global_position.x = - margin
 	elif global_position.x < - margin:
 		global_position.x = viewport_size.x + margin
+
+func jump():
+	velocity.y = jump_velocity
 
 
 
