@@ -7,6 +7,6 @@
 script = ExtResource("1_g4cpp")
 
 [node name="Player" parent="." instance=ExtResource("2_ufwqi")]
-position = Vector2(261, 611)
+position = Vector2(264, 900)
 
 [node name="PlatformParent" type="Node2D" parent="."]
