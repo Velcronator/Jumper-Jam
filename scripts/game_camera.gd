@@ -29,7 +29,7 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if player:
 		if limit_bottom > player.global_position.y + limit_distance:
-			limit_bottom = player.global_position.y + limit_distance
+			limit_bottom = int(player.global_position.y + limit_distance)
 			
 	var overlapping_areas = destroyer.get_overlapping_areas()
 	if overlapping_areas.size() > 0:
