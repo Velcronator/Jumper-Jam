@@ -56,4 +56,4 @@ func generate_level(start_y: float, generate_ground: bool):
 		location.y = start_y - (y_distance_between_platforms * i)
 		create_platform(location)
 		generated_platform_count += 1
-		print(generated_platform_count)
+
