@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dpwb02ypu3tqm"]
+[gd_scene load_steps=8 format=3 uid="uid://dpwb02ypu3tqm"]
 
 [ext_resource type="Texture2D" uid="uid://nsyg7tjvq817" path="res://assets/textures/ui/Box04.png" id="1_n6nru"]
+[ext_resource type="Script" path="res://scripts/base_screen.gd" id="1_qj3ha"]
 [ext_resource type="Texture2D" uid="uid://b851ax51vvoi5" path="res://assets/textures/ui/Welldone.png" id="2_ori44"]
 [ext_resource type="PackedScene" uid="uid://bmeysn2h8ug8h" path="res://scenes/screen_button.tscn" id="3_d0cst"]
 [ext_resource type="Texture2D" uid="uid://c2w6l3u4r1mof" path="res://assets/textures/ui/RestartBtn.png" id="4_mbqgs"]
@@ -17,6 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_qj3ha")
 
 [node name="BlackBG" type="ColorRect" parent="."]
 layout_mode = 1
