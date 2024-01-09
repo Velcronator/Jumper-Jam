@@ -10,6 +10,7 @@ var current_screen = null
 func _ready():
 	console.visible = false
 	register_buttons()
+	change_screen(title_screen)
 
 func register_buttons():
 	var buttons = get_tree().get_nodes_in_group("buttons")
@@ -22,15 +23,17 @@ func _on_button_pressed(button):
 	match button.name:
 		"TitlePlay":
 			print("Play button is pressed")
-			change_screen(null)
+			change_screen(pause_screen)
 		"PauseRetry":
 			print("PauseRetry button is pressed")
+			change_screen(game_over_screen)
 		"PauseBack":
 			print("PauseBack button is pressed")
 		"PauseClose":
 			print("PauseClose button is pressed")
 		"GameOverRetry":
 			print("GameOverRetry button is pressed")
+			change_screen(title_screen)
 		"GameOverBack":
 			print("GameOverBack button is pressed")
 
@@ -42,7 +45,9 @@ func _on_toggle_console_pressed() -> void:
 
 func change_screen(new_screen):
 	if current_screen != null:
-		current_screen.disappear()
+		var disappear_tween = current_screen.disappear()
+		await(disappear_tween.finished)
+		current_screen.visible = false
 	current_screen = new_screen
 	if current_screen != null:
 		current_screen.appear()
