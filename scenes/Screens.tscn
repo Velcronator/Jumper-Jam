@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://bm23431dvyotu"]
+[gd_scene load_steps=7 format=3 uid="uid://bm23431dvyotu"]
 
 [ext_resource type="Script" path="res://scripts/Screens.gd" id="1_b1wbe"]
 [ext_resource type="Texture2D" uid="uid://dw4g324aa2bix" path="res://assets/textures/ui/gear.png" id="2_25fd0"]
 [ext_resource type="PackedScene" uid="uid://2giv2kj0a1s6" path="res://scenes/title_screen.tscn" id="2_78p2d"]
 [ext_resource type="PackedScene" uid="uid://v102jyatyi7e" path="res://scenes/pause_screen.tscn" id="4_qca73"]
+[ext_resource type="PackedScene" uid="uid://dpwb02ypu3tqm" path="res://scenes/game_over_screen.tscn" id="5_2dh65"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_3fcn3"]
 
@@ -85,5 +86,7 @@ ignore_texture_size = true
 stretch_mode = 0
 
 [node name="PauseScreen" parent="." instance=ExtResource("4_qca73")]
+
+[node name="GameOverScreen" parent="." instance=ExtResource("5_2dh65")]
 
 [connection signal="pressed" from="Debug/ToggleConsole" to="." method="_on_toggle_console_pressed"]
