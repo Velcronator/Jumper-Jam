@@ -1,6 +1,11 @@
 extends CharacterBody2D
 class_name Player
 
+signal died
+
+@onready var animator = $AnimationPlayer
+@onready var collision_shape = $CollisionShape2D
+
 @export var speed = 300
 @export var accelerometer_speed = 130.0
 @export var slide = 1.0
@@ -12,7 +17,7 @@ var viewport_size
 
 var use_accelerometer = false
 
-@onready var animator = $AnimationPlayer
+var dead = false
 
 func _ready():
 	viewport_size = get_viewport_rect().size 
@@ -35,15 +40,16 @@ func _physics_process(_delta):
 	if velocity.y > maxFallVelocity:
 		velocity.y = maxFallVelocity
 	
-	if use_accelerometer:
-		var mobile_input = Input.get_accelerometer()
-		velocity.x = mobile_input.x * accelerometer_speed
-	else:
-		var input_direction = Input.get_axis("move_left","move_right")
-		if input_direction:
-			velocity.x = speed * input_direction
+	if!dead:
+		if use_accelerometer:
+			var mobile_input = Input.get_accelerometer()
+			velocity.x = mobile_input.x * accelerometer_speed
 		else:
-			velocity.x = move_toward(velocity.x, 0, speed / slide) 
+			var input_direction = Input.get_axis("move_left","move_right")
+			if input_direction:
+				velocity.x = speed * input_direction
+			else:
+				velocity.x = move_toward(velocity.x, 0, speed / slide) 
 	
 	move_and_slide()
 	
@@ -55,3 +61,13 @@ func _physics_process(_delta):
 
 func jump():
 	velocity.y = jump_velocity
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	die()
+
+func die():
+	if!dead:
+		dead = true
+		collision_shape.set_deferred("disabled", true)
+		died.emit()
+

@@ -42,6 +42,7 @@ func _process(_delta):
 func new_game():
 	player = player_scene.instantiate()
 	player.global_position = player_spawn_pos
+	player.died.connect(_on_player_died)
 	add_child(player)
 
 	camera = camera_scene.instantiate()
@@ -67,3 +68,6 @@ func setup_parallax_layer(parallax_layer: ParallaxLayer):
 		parallax_sprite.scale = get_parallax_sprite_scale(parallax_sprite)
 		var parallax_layer_mirroring_y = parallax_sprite.scale.y * parallax_sprite.get_texture().get_height()
 		parallax_layer.motion_mirroring.y = parallax_layer_mirroring_y
+
+func _on_player_died():
+	print("Player died!")
