@@ -1,5 +1,7 @@
 extends Node2D
 
+signal player_died(score, highscore)
+
 @onready var level_Generator = $LevelGenerator
 @onready var ground_sprite = $GroundSprite
 
@@ -31,7 +33,6 @@ func _ready():
 	setup_parallax_layer(parallax3)
 	
 	hud.visible = false
-
 
 func _process(_delta):
 	if Input.is_action_just_pressed("quit"):
@@ -70,4 +71,6 @@ func setup_parallax_layer(parallax_layer: ParallaxLayer):
 		parallax_layer.motion_mirroring.y = parallax_layer_mirroring_y
 
 func _on_player_died():
-	print("Player died!")
+	hud.visible = false
+	player_died.emit(1952, 1963)
+	
