@@ -17,7 +17,6 @@ func _ready():
 	generated_platform_count = 0
 	viewport_size = get_viewport_rect().size
 	start_platform_y = viewport_size.y - (y_distance_between_platforms * 2)
-	generate_level(start_platform_y, true)
 
 func _process(_delta):
 	if player:
@@ -30,6 +29,10 @@ func _process(_delta):
 func setup(_player: Player):
 	if _player:
 		player = _player
+
+func start_generation():
+	generate_level(start_platform_y, true)
+	
 
 func  create_platform(location: Vector2):
 	var platform = platform_scene.instantiate()
