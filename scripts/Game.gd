@@ -2,7 +2,7 @@ extends Node2D
 
 signal player_died(score, highscore)
 
-@onready var level_Generator = $LevelGenerator
+@onready var level_generator = $LevelGenerator
 @onready var ground_sprite = $GroundSprite
 
 @onready var parallax1 = $ParallaxBackground/ParallaxLayer
@@ -33,6 +33,7 @@ func _ready():
 	setup_parallax_layer(parallax3)
 	
 	hud.visible = false
+	ground_sprite.visible = false
 
 func _process(_delta):
 	if Input.is_action_just_pressed("quit"):
@@ -51,9 +52,10 @@ func new_game():
 	add_child(camera)
 	
 	if player:
-		level_Generator.setup(player)
-		level_Generator.start_generation()
+		level_generator.setup(player)
+		level_generator.start_generation()
 	hud.visible = true
+	ground_sprite.visible = true
 
 func get_parallax_sprite_scale(parallax_sprite: Sprite2D):
 	var parallax_texture = parallax_sprite.get_texture()
@@ -74,3 +76,15 @@ func _on_player_died():
 	hud.visible = false
 	player_died.emit(1952, 1963)
 	
+
+func reset_game():
+	ground_sprite.visible = false
+	level_generator.reset_level()
+	if player != null:
+		player.queue_free()
+		player = null
+		level_generator.player = null
+	if camera != null:
+		camera.queue_free()
+		camera = null
+

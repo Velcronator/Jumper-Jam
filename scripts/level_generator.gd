@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var platorm_parent = $PlatformParent
+@onready var platform_parent = $PlatformParent
 @onready var player: Player = null
 
 var platform_scene = preload("res://scenes/platform.tscn")
@@ -37,7 +37,7 @@ func start_generation():
 func  create_platform(location: Vector2):
 	var platform = platform_scene.instantiate()
 	platform.global_position = location
-	platorm_parent.add_child(platform)
+	platform_parent.add_child(platform)
 	return platform
 
 func generate_level(start_y: float, generate_ground: bool):
@@ -60,3 +60,7 @@ func generate_level(start_y: float, generate_ground: bool):
 		create_platform(location)
 		generated_platform_count += 1
 
+func reset_level():
+	generated_platform_count = 0
+	for platform in platform_parent.get_children():
+		platform.queue_free()
