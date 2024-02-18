@@ -42,6 +42,8 @@ func _process(_delta):
 		get_tree().reload_current_scene()
 
 func new_game():
+	reset_game()
+	
 	player = player_scene.instantiate()
 	player.global_position = player_spawn_pos
 	player.died.connect(_on_player_died)

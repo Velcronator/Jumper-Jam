@@ -38,8 +38,9 @@ func _on_button_pressed(button):
 		"PauseClose":
 			print("PauseClose button is pressed")
 		"GameOverRetry":
-			print("GameOverRetry button is pressed")
-			change_screen(title_screen)
+			change_screen(null)
+			await(get_tree().create_timer(0.5).timeout)
+			start_game.emit()
 		"GameOverBack":
 			change_screen(title_screen)
 			delete_level.emit()
