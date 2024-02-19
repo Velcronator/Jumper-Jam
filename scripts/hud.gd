@@ -2,6 +2,7 @@ extends Control
 
 @onready var topbar = $TopBar
 @onready var topbar_bg = $TopBarBG
+@onready var score_label = $TopBar/ScoreLabel
 
 func _ready():
 	var os_name = OS.get_name()
@@ -27,3 +28,7 @@ func _ready():
 
 func _on_pause_button_pressed() -> void:
 	pass # Replace with function body.
+
+func set_score(new_score: int):
+	score_label.text = str(new_score)
+
