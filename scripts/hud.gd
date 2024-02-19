@@ -29,6 +29,7 @@ func _ready():
 
 
 func _on_pause_button_pressed() -> void:
+	SoundFX.fx_play("Click")
 	pause_game.emit()
 
 func set_score(new_score: int):
