@@ -1,6 +1,7 @@
 extends Node2D
 
 signal player_died(score, highscore)
+signal pause_game
 
 @onready var level_generator = $LevelGenerator
 @onready var ground_sprite = $GroundSprite
@@ -22,6 +23,7 @@ var viewport_size: Vector2
 # variables
 var score : int = 0
 var highscore : int
+var save_file_path = "user://highscore.save"
 
 func _ready():
 	viewport_size = get_viewport_rect().size
@@ -38,7 +40,10 @@ func _ready():
 	
 	hud.visible = false
 	hud.set_score(0)
+	hud.pause_game.connect(_on_hud_pause_game)
 	ground_sprite.visible = false
+	
+	load_score()
 
 func _process(_delta):
 	if Input.is_action_just_pressed("quit"):
@@ -49,8 +54,7 @@ func _process(_delta):
 	#Calculate score
 	if player:
 		if score < (viewport_size.y - player.global_position.y):
-			score = (viewport_size.y - player.global_position.y)
-			print(score)
+			score = int(viewport_size.y - player.global_position.y)
 			hud.set_score(score)
 
 func new_game():
@@ -95,12 +99,14 @@ func _on_player_died():
 	# score and highscore
 	if score > highscore:
 		highscore = score
+		save_score()
 	player_died.emit(score, highscore)
 	
 
 func reset_game():
 	ground_sprite.visible = false
 	hud.set_score(0)
+	hud.visible = false
 	level_generator.reset_level()
 	if player != null:
 		player.queue_free()
@@ -110,3 +116,21 @@ func reset_game():
 		camera.queue_free()
 		camera = null
 
+func save_score():
+	var file = FileAccess.open(save_file_path, FileAccess.WRITE)
+	file.store_var(highscore)
+	print("Saving highscore to disk...")
+	file.close()
+
+func load_score():
+	if FileAccess.file_exists(save_file_path):
+		var file = FileAccess.open(save_file_path, FileAccess.READ)
+		highscore = file.get_var()
+		print("Loaded highscore from file: " + str(highscore))
+		file.close()
+	else:
+		print("Save file doesn't exist, setting highscore to 0")
+		highscore = 0
+
+func _on_hud_pause_game():
+	pause_game.emit()
