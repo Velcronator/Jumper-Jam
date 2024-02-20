@@ -5,6 +5,7 @@ signal died
 
 @onready var animator = $AnimationPlayer
 @onready var collision_shape = $CollisionShape2D
+@onready var sprite = $Sprite2D
 
 @export var speed = 300
 @export var accelerometer_speed = 130.0
@@ -19,6 +20,9 @@ var use_accelerometer = false
 
 var dead = false
 
+var fall_anim_name = "fall"
+var jump_anim_name = "jump"
+
 func _ready():
 	viewport_size = get_viewport_rect().size 
 	var os_name = OS.get_name()
@@ -28,11 +32,11 @@ func _ready():
 
 func _process(_delta):
 	if velocity.y > 0:
-		if animator.current_animation != "fall":
-			animator.play("fall")
+		if animator.current_animation != fall_anim_name:
+			animator.play(fall_anim_name)
 	elif velocity.y < 0:
-		if animator.current_animation != "jump":
-			animator.play("jump")
+		if animator.current_animation != jump_anim_name:
+			animator.play(jump_anim_name)
 	
 
 func _physics_process(_delta):
@@ -73,3 +77,9 @@ func die():
 		died.emit()
 		SoundFX.fx_play("Fall")
 
+func use_new_skin():
+	fall_anim_name = "fall_red"
+	jump_anim_name = "jump_red"
+	
+	if sprite:
+			sprite.texture = preload("res://assets/textures/character/Skin2Idle.png")

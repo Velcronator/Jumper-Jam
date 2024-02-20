@@ -25,6 +25,8 @@ var score : int = 0
 var highscore : int
 var save_file_path = "user://highscore.save"
 
+var new_skin_unlocked = false
+
 func _ready():
 	viewport_size = get_viewport_rect().size
 	var player_spawn_pos_y_offset = 135
@@ -64,6 +66,11 @@ func new_game():
 	player.global_position = player_spawn_pos
 	player.died.connect(_on_player_died)
 	add_child(player)
+	
+	# New character unlocked
+	new_skin_unlocked = true #todo debug
+	if new_skin_unlocked == true:
+		player.use_new_skin()
 
 	camera = camera_scene.instantiate()
 	camera.setup_camera(player)
