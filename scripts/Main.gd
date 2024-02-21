@@ -12,6 +12,10 @@ func _ready():
 	screens.delete_level.connect(_on_screens_delete_level)
 	game.pause_game.connect(_on_game_pause_game)
 	game.player_died.connect(_on_game_player_died)
+	
+	#IAP purchase signals
+	screens.purchase_skin.connect(_on_screens_purchase_skin)
+	
 
 
 func _on_window_event(event):
@@ -33,7 +37,9 @@ func _on_window_event(event):
 #func _process(delta):
 #	print(game_in_progress)
 #print(game_in_progress)
-
+func _on_screens_purchase_skin():
+	if game.new_skin_unlocked == false:
+		game.new_skin_unlocked = true
 
 func _on_screens_start_game():
 	game_in_progress = true

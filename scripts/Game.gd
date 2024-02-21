@@ -68,7 +68,6 @@ func new_game():
 	add_child(player)
 	
 	# New character unlocked
-	new_skin_unlocked = true #todo debug
 	if new_skin_unlocked == true:
 		player.use_new_skin()
 
