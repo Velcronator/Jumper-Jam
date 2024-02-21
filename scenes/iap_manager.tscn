@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dbh8rshf687kx"]
+
+[ext_resource type="Script" path="res://scripts/iap_manager.gd" id="1_qp5i8"]
+
+[node name="IAPManager" type="Node"]
+script = ExtResource("1_qp5i8")
