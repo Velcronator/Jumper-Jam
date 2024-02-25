@@ -4,6 +4,7 @@ signal unlock_new_skin
 
 var google_payment = null
 var new_skin_sku = "new_player_skin"
+var new_skin_token = ""
 
 func _ready():
 	if Engine.has_singleton("GodotGooglePlayBilling"):
@@ -50,7 +51,13 @@ func _on_sku_details_query_error(response_id, error_message, skus):
 	MyUtility.add_log_msg("Sku query error, response id: " + str(response_id) + ", message: " + str(error_message) + ", skus: " + str(skus))
 
 func _on_purchases_updated(purchases):
-	pass
+	if purchases.size() > 0: # if multiple purchase use a for loop as well
+		var purchase = purchases[0]
+		var purchase_sku = purchase["skus"][0]
+		MyUtility.add_log_msg("Purchased item with sku: " + purchase_sku)
+		if purchase_sku == new_skin_sku:
+			new_skin_token = purchase.purchase_token
+
 
 func _on_purchase_error(response_id, error_message):
 	MyUtility.add_log_msg("Purchase error, response id: " + str(response_id) + " error msg: " + error_message)
