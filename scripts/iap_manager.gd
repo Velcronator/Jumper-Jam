@@ -3,6 +3,7 @@ extends Node
 signal unlock_new_skin
 
 var google_payment = null
+var new_skin_sku = "new_player_skin"
 
 func _ready():
 	if Engine.has_singleton("GodotGooglePlayBilling"):
@@ -12,6 +13,9 @@ func _ready():
 		google_payment.connected.connect(_on_connected)
 		google_payment.connect_error.connect(_on_connect_error)
 		google_payment.disconnected.connect(_on_disconnected)
+		google_payment.sku_details_query_completed.connect(_on_sku_details_query_completed)
+		google_payment.sku_details_query_error.connect(_on_sku_details_query_error)
+
 		
 		google_payment.startConnection()
 	else:
@@ -23,9 +27,21 @@ func purchase_skin():
 
 func _on_connected():
 	MyUtility.add_log_msg("Connected")
+	google_payment.querySkuDetails([new_skin_sku], "inapp")
+	
 
 func _on_connect_error(response_id, debug_msg):
 	MyUtility.add_log_msg("Connect error, response id: " + str(response_id) + " debug msg: " + debug_msg)
 
 func _on_disconnected():
 	MyUtility.add_log_msg("Disconnected")
+
+func _on_sku_details_query_completed(skus):
+	MyUtility.add_log_msg("Sku details query completed")
+	for sku in skus:
+		MyUtility.add_log_msg("Sku:")
+		MyUtility.add_log_msg(str(sku))
+
+func _on_sku_details_query_error(response_id, error_message, skus):
+	MyUtility.add_log_msg("Sku query error, response id: " 
+	+ str(response_id) + ", message: " + str(error_message) + ", skus: " + str(skus))
