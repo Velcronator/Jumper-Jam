@@ -14,10 +14,15 @@ func _ready():
 		google_payment.connected.connect(_on_connected)
 		google_payment.connect_error.connect(_on_connect_error)
 		google_payment.disconnected.connect(_on_disconnected)
+		
 		google_payment.sku_details_query_completed.connect(_on_sku_details_query_completed)
 		google_payment.sku_details_query_error.connect(_on_sku_details_query_error)
+		
 		google_payment.purchases_updated.connect(_on_purchases_updated)
 		google_payment.purchase_error.connect(_on_purchase_error)
+		
+		google_payment.purchase_acknowledged.connect(_on_purchase_acknowledged)
+		google_payment.purchase_acknowledgement_error.connect(_on_purchase_acknowledgement_error)
 		
 		google_payment.startConnection()
 	else:
@@ -51,13 +56,23 @@ func _on_sku_details_query_error(response_id, error_message, skus):
 	MyUtility.add_log_msg("Sku query error, response id: " + str(response_id) + ", message: " + str(error_message) + ", skus: " + str(skus))
 
 func _on_purchases_updated(purchases):
-	if purchases.size() > 0: # if multiple purchase use a for loop as well
+	if purchases.size() > 0:
 		var purchase = purchases[0]
 		var purchase_sku = purchase["skus"][0]
 		MyUtility.add_log_msg("Purchased item with sku: " + purchase_sku)
 		if purchase_sku == new_skin_sku:
 			new_skin_token = purchase.purchase_token
-
+			google_payment.acknowledgePurchase(purchase.purchase_token)
 
 func _on_purchase_error(response_id, error_message):
 	MyUtility.add_log_msg("Purchase error, response id: " + str(response_id) + " error msg: " + error_message)
+
+func _on_purchase_acknowledged(purchase_token):
+	MyUtility.add_log_msg("Purchase acknowledged successfully!")
+	
+	if !new_skin_token.is_empty():
+		if new_skin_token == purchase_token:
+			unlock_new_skin.emit()
+
+func _on_purchase_acknowledgement_error(response_id, error_message, purchase_token):
+	MyUtility.add_log_msg("Purchase acknowledement error, response id: " + str(response_id) + ", message: " + str(error_message) + ", token: " + str(purchase_token))
