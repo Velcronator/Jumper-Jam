@@ -3,6 +3,7 @@ extends CanvasLayer
 signal start_game
 signal delete_level
 signal purchase_skin
+signal reset_purchases
 
 @onready var console = $Debug/ConsoleLog
 @onready var title_screen = $TitleScreen
@@ -59,6 +60,8 @@ func _on_button_pressed(button):
 			change_screen(title_screen)
 		"ShopPurchaseSkin":
 			purchase_skin.emit()
+		"ShopResetPurchases":
+			reset_purchases.emit()
 
 func _process(_delta):
 	pass

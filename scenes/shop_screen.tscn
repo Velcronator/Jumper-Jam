@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c7dg0s1sgfct8"]
+[gd_scene load_steps=11 format=3 uid="uid://c7dg0s1sgfct8"]
 
 [ext_resource type="Script" path="res://scripts/base_screen.gd" id="1_46gx2"]
 [ext_resource type="Texture2D" uid="uid://ddudj51ifssyw" path="res://assets/textures/ui/Box01.png" id="2_e7yug"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cxca7jfihvexi" path="res://assets/textures/ui/Closebtn2.png" id="4_skpiu"]
 [ext_resource type="Texture2D" uid="uid://nsyg7tjvq817" path="res://assets/textures/ui/Box04.png" id="5_d01ka"]
 [ext_resource type="Texture2D" uid="uid://cnibe1yk34emm" path="res://assets/textures/character/Skin2Idle.png" id="6_tvn0e"]
+[ext_resource type="Texture2D" uid="uid://bh04akuqrwmec" path="res://assets/textures/ui/EmptyBtn.png" id="7_4l2w5"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_yibx4"]
 font_size = 75
@@ -16,6 +17,12 @@ font_size = 47
 font_color = Color(0.0117647, 0.0117647, 0.0117647, 1)
 outline_size = 8
 outline_color = Color(0.8, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_f4j5u"]
+font_size = 20
+font_color = Color(0, 0, 0, 1)
+outline_size = 2
+outline_color = Color(1, 0, 0, 1)
 
 [node name="ShopScreen" type="Control"]
 layout_mode = 3
@@ -117,3 +124,51 @@ grow_horizontal = 2
 grow_vertical = 0
 text = "New Skin"
 label_settings = SubResource("LabelSettings_6hcfm")
+
+[node name="ShopResetPurchases" parent="Box" instance=ExtResource("3_85wi5")]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -187.0
+offset_top = -176.0
+offset_right = 188.0
+offset_bottom = -61.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="Box/ShopResetPurchases"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -136.5
+offset_top = -31.5
+offset_right = 136.5
+offset_bottom = 31.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_4l2w5")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="Box/ShopResetPurchases"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -84.5
+offset_top = -13.0
+offset_right = 84.5
+offset_bottom = 13.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Shop Reset Purchases"
+label_settings = SubResource("LabelSettings_f4j5u")
+horizontal_alignment = 1
+vertical_alignment = 1
