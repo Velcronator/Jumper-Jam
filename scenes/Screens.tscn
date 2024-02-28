@@ -15,7 +15,6 @@ layer = 101
 script = ExtResource("1_30enm")
 
 [node name="TitleScreen" parent="." instance=ExtResource("2_78p2d")]
-visible = false
 
 [node name="PauseScreen" parent="." instance=ExtResource("4_qca73")]
 visible = false
@@ -24,6 +23,7 @@ visible = false
 visible = false
 
 [node name="ShopScreen" parent="." instance=ExtResource("5_8kf83")]
+visible = false
 
 [node name="Debug" type="Control" parent="."]
 z_index = 4096

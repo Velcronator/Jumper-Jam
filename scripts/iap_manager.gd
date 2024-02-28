@@ -24,6 +24,8 @@ func _ready():
 		google_payment.purchase_acknowledged.connect(_on_purchase_acknowledged)
 		google_payment.purchase_acknowledgement_error.connect(_on_purchase_acknowledgement_error)
 		
+		google_payment.query_purchases_response.connect(_on_query_purchases_response)
+		
 		google_payment.startConnection()
 	else:
 		MyUtility.add_log_msg("Android IAP support is not available.")
@@ -51,6 +53,7 @@ func _on_sku_details_query_completed(skus):
 	for sku in skus:
 		MyUtility.add_log_msg("Sku:")
 		MyUtility.add_log_msg(str(sku))
+	google_payment.queryPurchases("inapp")
 
 func _on_sku_details_query_error(response_id, error_message, skus):
 	MyUtility.add_log_msg("Sku query error, response id: " + str(response_id) + ", message: " + str(error_message) + ", skus: " + str(skus))
@@ -72,7 +75,24 @@ func _on_purchase_acknowledged(purchase_token):
 	
 	if !new_skin_token.is_empty():
 		if new_skin_token == purchase_token:
+			MyUtility.add_log_msg("Unlocking new skin.")
 			unlock_new_skin.emit()
 
 func _on_purchase_acknowledgement_error(response_id, error_message, purchase_token):
 	MyUtility.add_log_msg("Purchase acknowledement error, response id: " + str(response_id) + ", message: " + str(error_message) + ", token: " + str(purchase_token))
+
+func _on_query_purchases_response(query_result):
+	if query_result.status == OK:
+		MyUtility.add_log_msg("Query purchases was successful")
+		var purchases = query_result.purchases
+		var purchase = purchases[0]
+		var purchase_sku = purchase["skus"][0]
+		if new_skin_sku == purchase_sku:
+			new_skin_token = purchase.purchase_token
+			if !purchase.is_acknowledged:
+				google_payment.acknowdlegePurchase(purchase.purchase_token)
+			else:
+				unlock_new_skin.emit()
+				MyUtility.add_log_msg("Unlocking new skin because it was purchased previously.")
+	else:
+		MyUtility.add_log_msg("Query purchases failed")
